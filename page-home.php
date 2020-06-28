@@ -24,6 +24,7 @@ $args = array(
     'category_name' => 'biznis',
     'posts_per_page' => 5,
 );
+wp_reset_query();
 $arr_posts = new WP_Query( $args );
  
 if ( $arr_posts->have_posts() ) :
@@ -33,14 +34,14 @@ if ( $arr_posts->have_posts() ) :
         ?>
         <article class="post-entry">
             <a href="<?php the_permalink(); ?>" class="post-image">            
-            <img src="<?=get_the_post_thumbnail_url()?>" alt="">
+            <img src="<?=get_the_post_thumbnail_url(get_the_ID(), 'news-grid-thumb')?>" alt="">
 </a>
             <div class="post-entry-overlay">
                 <div class="post-entry-meta">
                     <div class="post-entry-meta-title">
                         <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                     </div>
-                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                 </div>
             </div>
         </article>
@@ -141,7 +142,7 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -229,42 +230,46 @@ endif;
         <!-- end: HIGHLIGHTS-->
 <!-- VIDEO NEWS -->
 <div class="portfolio-3-columns">
-    <!-- portfolio item -->
-    <div class="portfolio-item">
-        <div class="portfolio-item-wrap">
-            <div class="portfolio-image">
-                <a href="#"><img src="<?=$template_dir?>/storija/assets/images/portfolio/61.jpg" alt=""></a>
-            </div>
-            <div class="portfolio-description">
-                <a title="Paper Pouch!" data-lightbox="iframe" href="https://www.youtube.com/watch?v=k6Kly58LYzY"><i class="icon-play"></i></a>
-            </div>
-        </div>
-    </div>
-    <!-- end: portfolio item -->
-    <!-- portfolio item -->
-    <div class="portfolio-item">
-        <div class="portfolio-item-wrap">
-            <div class="portfolio-image">
-                <a href="#"><img src="<?=$template_dir?>/storija/assets/images/portfolio/62.jpg" alt=""></a>
-            </div>
-            <div class="portfolio-description">
-                <a title="Paper Pouch!" data-lightbox="iframe" href="https://www.youtube.com/watch?v=k6Kly58LYzY"><i class="icon-play"></i></a>
-            </div>
-        </div>
-    </div>
-    <!-- end: portfolio item -->
-    <!-- portfolio item -->
-    <div class="portfolio-item">
-        <div class="portfolio-item-wrap">
-            <div class="portfolio-image">
-                <a href="#"><img src="<?=$template_dir?>/storija/assets/images/portfolio/63.jpg" alt=""></a>
-            </div>
-            <div class="portfolio-description">
-                <a title="Paper Pouch!" data-lightbox="iframe" href="https://www.youtube.com/watch?v=k6Kly58LYzY"><i class="icon-play"></i></a>
-            </div>
-        </div>
-    </div>
-    <!-- end: portfolio item -->
+    <?php
+
+    $args = array(
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'posts_per_page' => 3,
+        'tax_query' => array(
+            array(                
+                'taxonomy' => 'post_format',
+                'field' => 'slug',
+                'terms' => array( 
+                    'post-format-video'
+                ),
+                'operator' => 'IN'
+            )
+        )
+    );
+    wp_reset_query();
+    $arr_posts = new WP_Query( $args );
+
+    if ( $arr_posts->have_posts() ) :
+
+        while ( $arr_posts->have_posts() ) :
+            $arr_posts->the_post();
+            ?>
+                <!-- portfolio item -->
+                <div class="portfolio-item">
+                    <div class="portfolio-item-wrap">
+                        <div class="portfolio-image">
+                            <a href="#"><img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'video-news-thumb'); ?>" alt=""></a>
+                        </div>
+                        <div class="portfolio-description">
+                            <a title="Paper Pouch!" data-lightbox="iframe" href="https://www.youtube.com/watch?v=<?php echo get_field('yt_video'); ?>"><i class="icon-play"></i></a>
+                        </div>
+                    </div>
+                </div>
+            <?php
+        endwhile;
+    endif;
+    ?>
 </div>
 <!-- end: VIDEO NEWS-->
         <!-- CATEGORY SAMPLE -->
@@ -286,6 +291,7 @@ endif;
                                     'category_name' => 'region',
                                     'posts_per_page' => 1,
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -294,7 +300,7 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -317,6 +323,7 @@ endif;
                                     'posts_per_page' => 5,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -349,6 +356,7 @@ endif;
                                     'posts_per_page' => 5,
                                     'offset' => 6
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -396,6 +404,7 @@ endif;
                                     'category_name' => 'lifestyle',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -405,10 +414,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -425,6 +434,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -459,6 +469,7 @@ endif;
                                     'category_name' => 'tehnologija',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -468,10 +479,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -488,6 +499,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -521,6 +533,7 @@ endif;
                                     'category_name' => 'auto',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -530,10 +543,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -550,6 +563,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -640,6 +654,7 @@ endif;
                                     'category_name' => 'biznis',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -649,10 +664,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -669,6 +684,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -703,6 +719,7 @@ endif;
                                     'category_name' => 'politika',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -712,10 +729,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -732,6 +749,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -765,6 +783,7 @@ endif;
                                     'category_name' => 'crna-hronika',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -774,10 +793,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -794,6 +813,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -845,6 +865,7 @@ endif;
                                     'category_name' => 'hrana',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -854,10 +875,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -874,6 +895,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -908,6 +930,7 @@ endif;
                                     'category_name' => 'zabava',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -917,10 +940,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -937,6 +960,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -970,6 +994,7 @@ endif;
                                     'category_name' => 'kultura',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -979,10 +1004,10 @@ endif;
                                         ?>
                                 <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                 <div class="post-thumbnail-content">
-                                    <span class="post-date"><i class="far fa-clock"></i> 6m ago</span>
+                                    <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
-                                    <p><?php the_excerpt(); ?></p>
+                                    <?php the_excerpt(); ?>
                                         <?php
                                     endwhile;
                                 endif;
@@ -999,6 +1024,7 @@ endif;
                                     'posts_per_page' => 3,
                                     'offset' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :

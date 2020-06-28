@@ -9,13 +9,16 @@
  * @package Storija
  */
 
+$template_dir = get_theme_root_uri();
+
 $base_url = getBaseUrl();
 function getBaseUrl() {
     $environment = 'stage';
     if ($environment === 'prod') {
         $base_url = 'https://www.storija.net/';
     } else {
-        $base_url = 'http://localhost/storija/';
+        //$base_url = 'http://localhost/storija/';
+        $base_url = site_url();
     }
 
     return $base_url;
@@ -25,19 +28,17 @@ function getBaseUrl() {
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />    
-	<meta name="author" content="Storija.net" />    
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="author" content="Storija.net" />
 	<meta name="description" content="TODO">
     <link rel="icon" type="image/png" href="images/favicon.png">   
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Document title -->
     <title><?php wp_title(''); ?></title>
     <!-- Stylesheets & Fonts -->
-    <link href="<?=$template_dir?>/storija/wp-content/themes/storija/plugins.css" rel="stylesheet">
-    <link href="<?=$template_dir?>/storija/wp-content/themes/storija/style.css" rel="stylesheet">
-
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
+    <link href="<?=$template_dir?>/storija/plugins.css" rel="stylesheet">
+    <link href="<?=$template_dir?>/storija/style.css" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
@@ -94,8 +95,8 @@ function getBaseUrl() {
                     <!--End: Logo-->
                     <!-- Search -->
                     <div id="search"><a id="btn-search-close" class="btn-search-close" aria-label="Close search form"><i class="icon-x"></i></a>
-                        <form class="search-form" action="search-results-page.html" method="get">
-                            <input class="form-control" name="q" type="text" placeholder="Type &amp; Search...">
+                        <form class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
+                            <input class="form-control" name="s" type="text" placeholder="Type &amp; Search...">
                             <span class="text-muted">Start typing &amp; press "Enter" or "ESC" to close</span>
                         </form>
                     </div>
@@ -128,21 +129,31 @@ function getBaseUrl() {
                     <div id="mainMenu" class="menu-creative">
                         <div class="container">
                             <nav>
-                                <? 
+                                <?php
                                 $current_menu_css_class = 'class="current"';
                                 ?>
                                 <ul>
-                                    <li <?php if ($men_poslednje_vijesti = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>poslednje-vijesti">Poslednje vijesti</a></li>
-                                    <li <?php if ($men_europa = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>europa">Europa</a></li>
-                                    <li <?php if ($men_njemacka = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>njemacka">Njemacka</a></li>
-                                    <li <?php if ($men_svijet = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>svijet">Svijet</a></li>
-                                    <li <?php if ($men_region = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>region">Region</a></li>
-                                    <li <?php if ($men_politika = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>politika">Politika</a></li>
-                                    <li <?php if ($men_sport = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>sport">Sport</a></li>
-                                    <li <?php if ($men_poslovi_u_njemackoj = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>poslovi-u-njemackoj">Poslovi u njemackoj</a></li>
-                                    <li <?php if ($men_lifestyle = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>lifestyle">Lifestyle</a></li>
-                                    <li <?php if ($men_tehnologija = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>software-hardware">Software & Hardware</a></li>
-                                    <li <?php if ($men_izdvojeno = true) { echo $current_menu_css_class; } ?>><a href="<?=$base_url?>izdvojeno">Izdvojeno</a></li>
+                                    <li <?php if (is_page('poslednje')) { echo $current_menu_css_class; } ?>><a href="<?php echo site_url('/poslednje'); ?>">Poslednje vijesti</a></li>
+                                    
+                                    <li <?php if (is_category('europa')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('europa')); ?>">Europa</a></li>
+
+                                    <li <?php if (is_category('njemacka')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('njemacka')); ?>">Njemacka</a></li>
+
+                                    <li <?php if (is_category('svijet')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('svijet')); ?>">Svijet</a></li>
+
+                                    <li <?php if (is_category('region')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('region')); ?>">Region</a></li>
+
+                                    <li <?php if (is_category('politika')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('politika')); ?>">Politika</a></li>
+
+                                    <li <?php if (is_category('sport')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('sport')); ?>">Sport</a></li>
+
+                                    <li <?php if (is_category('posao-u-njemackoj')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('posao-u-njemackoj')); ?>">Poslovi u njemackoj</a></li>
+
+                                    <li <?php if (is_category('lifestyle')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('lifestyle')); ?>">Lifestyle</a></li>
+
+                                    <li <?php if (is_category('software-hardware')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('software-hardware')); ?>">Software &amp; Hardware</a></li>
+
+                                    <li <?php if (is_category('istaknuto')) { echo $current_menu_css_class; } ?>><a href="<?php echo get_category_link(get_category_by_slug('istaknuto')); ?>">Izdvojeno</a></li>
                                 </ul>
                             </nav>
                         </div>

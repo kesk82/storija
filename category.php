@@ -11,13 +11,20 @@ get_header();
 
 $categories = get_the_category();
 
+$current_category = get_queried_object();
+$category_name = $current_category->slug;
 
+//$current_page = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+$current_page = $paged = isset($_GET['t_page']) ? abs(intval($_GET['t_page'])) : 1;
+
+
+/*
 if ( ! empty( $categories ) ) {
     $category_name = $categories[0]->slug;
 }
 else {
     die(var_dump('no category.'));
-}
+}*/
 
 ?>
 <!-- Content -->
@@ -37,12 +44,25 @@ else {
                                 // the query
                                 $the_query = new WP_Query(array(
                                     'category_name' => $category_name,
-                                    'post_status' => 'publish'
+                                    'post_status' => 'publish',
+                                    'paged' => $current_page,
+                                    //'posts_per_page' => 2,
                                 ));
                                 ?>
 
                                 <?php if ($the_query->have_posts()) : ?>
-                                    <?php while ($the_query->have_posts()) : $the_query->the_post(); ?>
+                                    <?php while ($the_query->have_posts()) : $the_query->the_post();
+                                    $post_cats = get_the_category();
+                                    $post_cat = null;
+                                    if (isset($post_cats[0]->cat_name)) {
+                                        if ($post_cats[0]->slug === 'istaknuto') {
+                                            $post_cat = isset($post_cats[1]->cat_name) ? $post_cats[1] : null;
+                                        } else {
+                                            $post_cat = $post_cats[0];
+                                        }
+                                    }
+                                    
+                                    ?>
                                         <!-- Post item-->
                                         <div class="post-item">
                                             <div class="post-item-wrap">
@@ -50,14 +70,14 @@ else {
                                                     <a href="<?php the_permalink(); ?>">
                                                         <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                                     </a>
-                                                    <span class="post-meta-category"><a href="<?php the_permalink(); ?>">Lifestyle</a></span>
+                                                    <span class="post-meta-category"><a href="<?php the_permalink(); ?>"><?php echo $post_cat !== null ?  get_field( "podnaslov", "category_" . $post_cat->term_id ) : ''; ?></a></span>
                                                 </div>
                                                 <div class="post-item-description">
-                                                    <span class="post-meta-date"><i class="fa fa-calendar-o"></i>Jan 21, 2017</span>
-                                                    <span class="post-meta-comments"><a href=""><i class="fa fa-comments-o"></i>33 Comments</a></span>
+                                                    <span class="post-meta-date"><i class="fa fa-calendar-o"></i><time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo get_the_date(); ?></time></span>
+                                                    <span class="post-meta-comments"><a href=""><i class="fa fa-comments-o"></i><?php echo get_comments_number() . " komentara"; ?></a></span>
                                                     <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?>
                                                         </a></h2>
-                                                    <p><?php the_excerpt(); ?></p>
+                                                    <?php the_excerpt(); ?>
                                 
                                                     <a href="<?php the_permalink(); ?>" class="item-link">Procitaj vise <i class="icon-chevron-right"></i></a>
                                                 </div>
@@ -79,41 +99,37 @@ else {
                             <a href="blog-left-image-infinite-scroll-2.html"></a>
                         </div>
                         <!-- end:Load next portfolio items -->
+                        <?php
+                        $total_pages = $the_query->max_num_pages;
+
+                        if ($total_pages > 1) { ?>
+                        <!-- Pagination -->
+                        <?php
+                        $pagination_array = paginate_links(array(
+                          'base' => preg_replace('/\?.*/', '/', get_pagenum_link(1)) . '%_%',
+                          'current' => isset($_GET['t_page']) ? abs(intval($_GET['t_page'])) : 1,
+                          'format' => '?t_page=%#%',
+                          'current' => $current_page,
+                          'total' => $total_pages,
+                          'type' => 'list', //default it will return anchor
+                          'prev_text'    => '<i class="fa fa-angle-left"></i>',
+                          'next_text'    => '<i class="fa fa-angle-right"></i>',
+                          'type' => 'array'
+                        ));
+                        ?>
+                        <ul class="pagination"><?php
+                        foreach ($pagination_array as $pagination_item) {
+                          echo '<li class="page-item' . ((strpos( $pagination_item , 'current' ) > 0) ? ' active' : '') . '">' . "\n";
+                          echo preg_replace('/class="[^"]+"/', 'class="page-link"', $pagination_item, 1) . "\n";
+                          echo '</li>' . "\n";
+                        }
+                        ?></ul>
+                        <?php } ?>
                     </div>
                     <!-- end: post content -->
                     <!-- Sidebar-->
                     <div class="sidebar sticky-sidebar col-lg-3">
-                        <!--Tabs with Posts-->
-                        <div class="widget ">
-                            <h4 class="widget-title">Recent Posts</h4>
-                            <div class="post-thumbnail-list">
-                                <div class="post-thumbnail-entry">
-                                    <img alt="" src="images/blog/thumbnail/5.jpg">
-                                    <div class="post-thumbnail-content">
-                                        <a href="#">A true story, that never been told!</a>
-                                        <span class="post-date"><i class="icon-clock"></i> 6m ago</span>
-                                        <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
-                                    </div>
-                                </div>
-                                <div class="post-thumbnail-entry">
-                                    <img alt="" src="images/blog/thumbnail/6.jpg">
-                                    <div class="post-thumbnail-content">
-                                        <a href="#">Beautiful nature, and rare feathers!</a>
-                                        <span class="post-date"><i class="icon-clock"></i> 24h ago</span>
-                                        <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                    </div>
-                                </div>
-                                <div class="post-thumbnail-entry">
-                                    <img alt="" src="images/blog/thumbnail/7.jpg">
-                                    <div class="post-thumbnail-content">
-                                        <a href="#">Lorem ipsum dolor sit amet</a>
-                                        <span class="post-date"><i class="icon-clock"></i> 11h ago</span>
-                                        <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End: Tabs with Posts-->
+                        <?php get_template_part( 'sidebar', 'tabs' ); ?>
                         <!-- Twitter widget -->
                         <div class="widget widget-tweeter" data-username="envato" data-limit="2">
                             <h4 class="widget-title">Recent Tweets</h4>

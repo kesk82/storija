@@ -67,11 +67,11 @@ $template_dir = get_theme_root_uri();
                     <div class="widget">
                       <h4>Sport</h4>
                       <ul class="list">
-                        <li><a href="#">Fudbal</a></li>
-                        <li><a href="#">Kosarka</a></li>
-                        <li><a href="#">Rukomet</a></li>
-                        <li><a href="#">Tenis</a></li>
-                        <li><a href="#">E-Sportovi</a></li>
+                        <li><a href="<?php echo get_category_link(get_category_by_slug('fudbal')); ?>">Fudbal</a></li>
+                        <li><a href="<?php echo get_category_link(get_category_by_slug('kosarka')); ?>">Kosarka</a></li>
+                        <li><a href="<?php echo get_category_link(get_category_by_slug('rukomet')); ?>">Rukomet</a></li>
+                        <li><a href="<?php echo get_category_link(get_category_by_slug('tenis')); ?>">Tenis</a></li>
+                        <li><a href="<?php echo get_category_link(get_category_by_slug('e-sports')); ?>">E-Sportovi</a></li>
                       </ul>
                     </div>
                     <!-- end: Footer widget area 4 -->

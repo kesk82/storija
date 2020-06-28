@@ -25,7 +25,10 @@ get_header();
                                             <img alt="" src="<?=get_the_post_thumbnail_url()?>">
                                         </a>
 									</div>
-									<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                                    <?php if (have_posts()) : while (have_posts()) : the_post();
+                                        /* Update post viewer counter: */
+                                        skke_set_post_view();
+                                    ?>
                                     <div class="post-item-description">
                                         <h1><?php the_title() ?></h1>
                                         <div class="post-meta">
@@ -50,119 +53,41 @@ get_header();
 									the_tags( $before, $seperator, $after );
 									?>
 									</div>
-									<div class="post-navigation">
-                                        <a href="blog-single-slider.html" class="post-prev">
-                                            <div class="post-prev-title"><span>Previous Post</span>Post with a slider and lightbox</div>
-                                        </a>
-                                        <a href="blog-masonry-3.html" class="post-all">
+                                    <div class="post-navigation">
+                                        <?php
+
+                                            $post_cat_obj = skke_get_cat_obj();
+
+                                            $cat_url = "";
+
+                                            if (isset($post_cat_obj->slug)) {
+                                                $cat_url = get_category_link( $post_cat_obj );
+                                            }
+                                        
+                                            $prev_post = get_adjacent_post(true, 'istaknuto', true);
+                                            $next_post = get_adjacent_post(true, 'istaknuto', false);
+
+                                            if ($prev_post) {
+                                        ?>
+                                        <a href="<?php echo get_the_permalink($prev_post->ID); ?>" class="post-prev">
+                                            <div class="post-prev-title"><span>Previous Post</span><?php echo get_the_title($prev_post->ID); ?></div>
+                                            </a> <?php } ?>
+                                        <a href="<?php echo $cat_url; ?>" class="post-all">
                                             <i class="icon-grid"> </i>
                                         </a>
-                                        <a href="blog-single-video.html" class="post-next">
-                                            <div class="post-next-title"><span>Next Post</span>Post with YouTube Video</div>
-                                        </a>
+                                        <?php if ($next_post) { ?>
+                                        <a href="<?php echo get_the_permalink($next_post->ID); ?>" class="post-next">
+                                            <div class="post-next-title"><span>Next Post</span><?php echo get_the_title($next_post->ID); ?></div>
+                                        </a><?php } ?>
                                     </div>
                                     <!-- Comments -->
-                                    <div class="comments" id="comments">
-                                        <div class="comment_number">
-                                            Comments <span>(2)</span>
-                                        </div>
-                                        <div class="comment-list">
-                                            <!-- Comment -->
-                                            <div class="comment" id="comment-1">
-                                                <div class="image"><img alt="" src="images/blog/author.jpg" class="avatar"></div>
-                                                <div class="text">
-                                                    <h5 class="name">John Doe</h5>
-                                                    <span class="comment_date">Posted at 15:32h, 06 December</span>
-                                                    <a class="comment-reply-link" href="#">Reply</a>
-                                                    <div class="text_holder">
-                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                                    </div>
-                                                </div>
-                                                <!-- Comment -->
-                                                <div class="comment" id="comment-1-1">
-                                                    <div class="image"><img alt="" src="images/blog/author2.jpg" class="avatar"></div>
-                                                    <div class="text">
-                                                        <h5 class="name">John Doe</h5>
-                                                        <span class="comment_date">Posted at 15:32h, 06 December</span>
-                                                        <a class="comment-reply-link" href="#">Reply</a>
-                                                        <div class="text_holder">
-                                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end: Comment -->
-                                                <!-- Comment -->
-                                                <div class="comment" id="comment-1-2">
-                                                    <div class="image"><img alt="" src="images/blog/author3.jpg" class="avatar"></div>
-                                                    <div class="text">
-                                                        <h5 class="name">John Doe</h5>
-                                                        <span class="comment_date">Posted at 15:32h, 06 December</span>
-                                                        <a class="comment-reply-link" href="#">Reply</a>
-                                                        <div class="text_holder">
-                                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- end: Comment -->
-                                            </div>
-                                            <!-- end: Comment -->
-                                            <!-- Comment -->
-                                            <div class="comment" id="comment-2">
-                                                <div class="image"><img alt="" src="images/blog/author2.jpg" class="avatar"></div>
-                                                <div class="text">
-                                                    <h5 class="name">John Doe</h5>
-                                                    <span class="comment_date">Posted at 15:32h, 06 December</span>
-                                                    <a class="comment-reply-link" href="#">Reply</a>
-                                                    <div class="text_holder">
-                                                        <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- end: Comment -->
-                                        </div>
-                                    </div>
+                                    <?php
+                                    // If comments are open or we have at least one comment, load up the comment template.
+                                    if ( comments_open() || get_comments_number() ) :
+                                        comments_template();
+                                    endif;
+                                    ?>
                                     <!-- end: Comments -->
-                                    <div class="respond-form" id="respond">
-                                        <div class="respond-comment">
-                                            Leave a <span>Comment</span></div>
-                                        <form class="form-gray-fields">
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label class="upper" for="name">Name</label>
-                                                        <input class="form-control required" name="senderName" placeholder="Enter name" id="name" aria-required="true" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label class="upper" for="email">Email</label>
-                                                        <input class="form-control required email" name="senderEmail" placeholder="Enter email" id="email" aria-required="true" type="email">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label class="upper" for="website">Website</label>
-                                                        <input class="form-control website" name="senderWebsite" placeholder="Enter Website" id="website" aria-required="false" type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="upper" for="comment">Your comment</label>
-                                                        <textarea class="form-control required" name="comment" rows="9" placeholder="Enter comment" id="comment" aria-required="true"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group text-center">
-                                                        <button class="btn" type="submit">Submit Comment</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
                             <!-- end: Post single item-->
@@ -173,118 +98,16 @@ get_header();
                     <div class="sidebar sticky-sidebar col-lg-3">
                         <!--widget newsletter-->
                         <div class="widget  widget-newsletter">
-                            <form id="widget-search-form-sidebar" action="search-results-page.html" method="get">
+                            <form id="widget-search-form-sidebar" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
 						<div class="input-group">
-						  <input type="text" aria-required="true" name="q" class="form-control widget-search-form" placeholder="Search for pages...">
+						  <input type="text" aria-required="true" name="s" class="form-control widget-search-form" placeholder="Search for pages...">
 						  <div class="input-group-append">
 							<button class="btn" type="submit"><i class="fa fa-search"></i></button>
 						  </div>
 						</div>
 					</form></div>
                         <!--end: widget newsletter-->
-                        <!--Tabs with Posts-->
-                        <div class="widget">
-                            <div class="tabs">
-                                <ul class="nav nav-tabs" id="tabs-posts" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#popular" role="tab" aria-controls="popular" aria-selected="true">Popular</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#featured" role="tab" aria-controls="featured" aria-selected="false">Featured</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#recent" role="tab" aria-controls="recent" aria-selected="false">Recent</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="tabs-posts-content">
-                                    <div class="tab-pane fade show active" id="popular" role="tabpanel" aria-labelledby="popular-tab">
-                                        <div class="post-thumbnail-list">
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/5.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">A true story, that never been told!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 6m ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
-                                                </div>
-                                            </div>
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/6.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">Beautiful nature, and rare feathers!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 24h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/7.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">The most happiest time of the day!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 11h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="featured" role="tabpanel" aria-labelledby="featured-tab">
-                                        <div class="post-thumbnail-list">
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/6.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">Beautiful nature, and rare feathers!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 24h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/7.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">The most happiest time of the day!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 11h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/8.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">New costs and rise of the economy!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 11h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
-                                        <div class="post-thumbnail-list">
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/7.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">The most happiest time of the day!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 11h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/8.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">New costs and rise of the economy!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 11h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                            <div class="post-thumbnail-entry">
-                                                <img alt="" src="images/blog/thumbnail/6.jpg">
-                                                <div class="post-thumbnail-content">
-                                                    <a href="#">Beautiful nature, and rare feathers!</a>
-                                                    <span class="post-date"><i class="icon-clock"></i> 24h ago</span>
-                                                    <span class="post-category"><i class="fa fa-tag"></i> Lifestyle</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--End: Tabs with Posts-->
+                        <?php get_template_part( 'sidebar', 'tabs' ); ?>
                         <!-- Twitter widget -->
                         <div class="widget widget-tweeter" data-username="envato" data-limit="2">
                             <h4 class="widget-title">Recent Tweets</h4>

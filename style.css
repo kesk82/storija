@@ -18487,4 +18487,48 @@ body[data-bg-image] {
     }
 } */
 
-/*# sourceMappingURL=style.css.map */
+
+/*
+ *
+ *
+ * Dodatni CSS code by Kemal Skripic
+ *
+ *
+ */
+
+.post-thumbnail-list .post-thumbnail-entry {
+  overflow: hidden;
+  /* position: relative; */
+}
+/*
+.post-thumbnail-list .post-thumbnail-entry:after {
+  display: block;
+  content: " ";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: #fff;
+}
+
+.post-thumbnail-list .post-thumbnail-entry .post-thumbnail-content {
+  position: absolute;
+  top: 0;
+}*/
+
+.post-thumbnail-list .post-thumbnail-entry .post-thumbnail-content > a:first-of-type {
+  white-space: nowrap;
+}
+
+.post-thumbnail-list .post-thumbnail-entry .post-thumbnail-content > p:first-of-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.nav.nav-tabs > .nav-item {
+  max-width: 33%;
+}

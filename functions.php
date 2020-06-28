@@ -155,6 +155,11 @@ function storija_scripts() {
 add_action( 'wp_enqueue_scripts', 'storija_scripts' );
 
 /**
+ * Helper functions.
+ */
+require get_template_directory() . '/inc/helper.php';
+
+/**
  * Implement the Custom Header feature.
  */
 require get_template_directory() . '/inc/custom-header.php';
@@ -190,3 +195,65 @@ function new_excerpt_more( $more ) {
     return '...';
 }
 add_filter('excerpt_more', 'new_excerpt_more');
+
+/*
+ *
+ * Post view counter... 
+ * ************************** */
+function skke_get_post_view() {
+	$count = get_post_meta( get_the_ID(), 'post_views_count', true );
+	return "$count views";
+}
+
+function skke_set_post_view() {
+	$key = 'post_views_count';
+	$post_id = get_the_ID();
+	$count = (int) get_post_meta( $post_id, $key, true );
+	$count++;
+	update_post_meta( $post_id, $key, $count );
+}
+
+function skke_posts_column_views( $columns ) {
+	$columns['post_views'] = 'Views';
+	return $columns;
+}
+
+function skke_posts_custom_column_views( $column ) {
+	if ( $column === 'post_views') {
+			echo skke_get_post_view();
+	}
+}
+
+add_filter( 'manage_posts_columns', 'skke_posts_column_views' );
+add_action( 'manage_posts_custom_column', 'skke_posts_custom_column_views' );
+
+require_once get_stylesheet_directory() . '/inc/list_comments_cb.php';
+require_once get_stylesheet_directory() . '/inc/acf.php';
+
+function skke_comment_form_fields_cb( $fields ) { 
+	return array(
+		'author' => $fields['author'],
+		'email' => $fields['email'],
+		'url' => $fields['url'],
+		'comment' => $fields['comment'],
+		'cookies' => $fields['cookies']
+	);
+} 
+add_filter( 'comment_form_fields', 'skke_comment_form_fields_cb' );
+
+function skke_comment_form_default_fields_cb($fields) {
+	return $fields;
+}
+add_filter( 'comment_form_default_fields', 'skke_comment_form_default_fields_cb' );
+
+add_theme_support( 'post-formats', array( 'video', 'audio' ) );
+
+add_image_size('news-grid-thumb', 1920, 1440, true);
+add_image_size('skke-video-thumb', 1920, 1080, true);
+add_image_size('video-news-thumb', 1920, 1280, true);
+
+add_image_size('storia-thumb-xxl', 2200, 1650, true);
+add_image_size('storia-thumb-xl', 1920, 1440, true);
+add_image_size('storia-thumb-l', 1024, 768, true);
+add_image_size('storia-thumb-m', 600, 400, true);
+add_image_size('storia-thumb-s', 300, 225, true);
