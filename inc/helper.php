@@ -36,10 +36,10 @@ function skke_get_srcset($postid) {
 
   $post_thumb_id = get_post_thumbnail_id($postid);
 
-  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xxl')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xxl')[1] . 'w,';
-  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xl')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xl')[1] . 'w,';
-  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-l')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-l')[1] . 'w,';
-  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-m')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-m')[1] . 'w,';
+  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xxl')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xxl')[1] . 'w, ';
+  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xl')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-xl')[1] . 'w, ';
+  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-l')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-l')[1] . 'w, ';
+  $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-m')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-m')[1] . 'w, ';
   $r .= wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-s')[0] . ' ' . wp_get_attachment_image_src($post_thumb_id, 'storia-thumb-s')[1] . 'w';
 
   return $r;

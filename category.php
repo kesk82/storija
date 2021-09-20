@@ -68,7 +68,7 @@ else {
                                             <div class="post-item-wrap">
                                                 <div class="post-image">
                                                     <a href="<?php the_permalink(); ?>">
-                                                        <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                                        <img alt="" src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l')?>">
                                                     </a>
                                                     <span class="post-meta-category"><a href="<?php the_permalink(); ?>"><?php echo $post_cat !== null ?  get_field( "podnaslov", "category_" . $post_cat->term_id ) : ''; ?></a></span>
                                                 </div>

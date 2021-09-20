@@ -250,10 +250,13 @@ add_theme_support( 'post-formats', array( 'video', 'audio' ) );
 
 add_image_size('news-grid-thumb', 1920, 1440, true);
 add_image_size('skke-video-thumb', 1920, 1080, true);
-add_image_size('video-news-thumb', 1920, 1280, true);
 
-add_image_size('storia-thumb-xxl', 2200, 1650, true);
-add_image_size('storia-thumb-xl', 1920, 1440, true);
+add_image_size('video-news-thumb', 640, 360, true);
+add_image_size('video-news-thumb@2x', 1280, 720, true);
+
+add_image_size('storia-thumb-xxl', 1920, 1440, true);
+add_image_size('storia-thumb-xl', 1600, 1200, true);
 add_image_size('storia-thumb-l', 1024, 768, true);
-add_image_size('storia-thumb-m', 600, 400, true);
+add_image_size('storia-thumb-m', 600, 450, true);
 add_image_size('storia-thumb-s', 300, 225, true);
+add_image_size('storia-thumb-xs', 120, 90, true);

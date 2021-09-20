@@ -34,7 +34,10 @@ if ( $arr_posts->have_posts() ) :
         ?>
         <article class="post-entry">
             <a href="<?php the_permalink(); ?>" class="post-image">            
-            <img src="<?=get_the_post_thumbnail_url(get_the_ID(), 'news-grid-thumb')?>" alt="">
+            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo skke_get_srcset(get_the_ID()); ?>"
+                                                data-sizes="auto"
+                                                class="lazyload">
 </a>
             <div class="post-entry-overlay">
                 <div class="post-entry-meta">
@@ -68,6 +71,7 @@ $args = array(
     'category_name' => 'posao-u-njemackoj',
     'posts_per_page' => 15,
 );
+wp_reset_query();
 $arr_posts = new WP_Query( $args );
  
 if ( $arr_posts->have_posts() ) :
@@ -100,6 +104,7 @@ endif;
                                     'category_name' => 'region',
                                     'posts_per_page' => 5,
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -108,7 +113,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -134,6 +141,7 @@ endif;
                                     'category_name' => 'prica-dana',
                                     'posts_per_page' => 1
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -142,7 +150,8 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -167,6 +176,7 @@ endif;
                                     'category_name' => 'europa',
                                     'posts_per_page' => 5,
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -175,7 +185,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -200,6 +212,7 @@ endif;
                                     'category_name' => 'sport',
                                     'posts_per_page' => 5,
                                 );
+                                wp_reset_query();
                                 $arr_posts = new WP_Query( $args );
                                 
                                 if ( $arr_posts->have_posts() ) :
@@ -208,7 +221,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -259,7 +274,7 @@ endif;
                 <div class="portfolio-item">
                     <div class="portfolio-item-wrap">
                         <div class="portfolio-image">
-                            <a href="#"><img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'video-news-thumb'); ?>" alt=""></a>
+                            <a href="#"><img data-src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'video-news-thumb'); ?>" alt="" data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'video-news-thumb'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'video-news-thumb@2x'); ?> 2x" class="lazyload"></a>
                         </div>
                         <div class="portfolio-description">
                             <a title="Paper Pouch!" data-lightbox="iframe" href="https://www.youtube.com/watch?v=<?php echo get_field('yt_video'); ?>"><i class="icon-play"></i></a>
@@ -282,8 +297,7 @@ endif;
                     <div class="col-lg-5">
                         <div class="post-thumbnail">
                             <div class="post-thumbnail-entry">
-                                <img alt="" src="<?=$template_dir?>/storija/assets/images/news/highlights/1-large.jpg">
-                                <div class="post-thumbnail-content">
+                                
                                 <?php
                                 $args = array(
                                     'post_type' => 'post',
@@ -299,6 +313,9 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
+                                    <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
+                                    <div class="post-thumbnail-content">
                                     <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
                                     <?php the_excerpt(); ?>
                                         <?php
@@ -332,7 +349,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -365,7 +384,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -412,7 +433,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -443,7 +465,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -477,7 +501,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -508,7 +533,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -541,7 +568,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -572,7 +600,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -662,7 +692,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -693,7 +724,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -727,7 +760,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -758,7 +792,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -791,7 +827,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -822,7 +859,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -873,7 +912,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -904,7 +944,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -938,7 +980,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -969,7 +1012,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>
@@ -1002,7 +1047,8 @@ endif;
                                     while ( $arr_posts->have_posts() ) :
                                         $arr_posts->the_post();
                                         ?>
-                                <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>, <?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-l'); ?> 2x" class="lazyload">
                                 <div class="post-thumbnail-content">
                                     <span class="post-date"><i class="far fa-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
                                     <span class="post-category"><i class="fa fa-tag"></i> Technology</span>
@@ -1033,7 +1079,9 @@ endif;
                                         $arr_posts->the_post();
                                         ?>
                                             <div class="post-thumbnail-entry">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                            <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>"
+                                                data-srcset="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>, <?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?> 2x"
+                                                class="lazyload">
                                                 <div class="post-thumbnail-content">
                                                     <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                     <?php the_excerpt(); ?>

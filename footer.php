@@ -130,6 +130,7 @@ $template_dir = get_theme_root_uri();
     <!-- Scroll top -->
     <a id="scrollTop"><i class="icon-chevron-up"></i><i class="icon-chevron-up"></i></a>
     <!--Plugins-->
+    <script src="<?=$template_dir?>/storija/js/lazysizes.min.js" async=""></script>
     <script src="<?=$template_dir?>/storija/js/jquery.js"></script>
     <script src="<?=$template_dir?>/storija/assets/plugins/infinite-scroll.min.js"></script>
     <script src="<?=$template_dir?>/storija/js/plugins.js"></script>

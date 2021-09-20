@@ -18532,3 +18532,12 @@ body[data-bg-image] {
 .nav.nav-tabs > .nav-item {
   max-width: 33%;
 }
+
+img.lazyload, img.lazyloading {
+		opacity: 0;
+		transition: opacity 400ms;
+	}
+
+img.lazyloaded {
+		opacity: 1;
+}

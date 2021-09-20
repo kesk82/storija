@@ -46,7 +46,7 @@ $current_page = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
                         $args = array(
                           'post_type' => 'post',
                           'post_status' => 'publish',
-                          'posts_per_page' => 5,
+                          'posts_per_page' => 24,
                           'paged' => $current_page
                         );
                         wp_reset_query();
@@ -114,7 +114,7 @@ $current_page = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
                                   <div class="post-item-wrap">
                                       <div class="post-image">
                                           <a href="<?php the_permalink();  ?>">
-                                              <img alt="" src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'skke-video-thumb'); ?>">
+                                              <img alt="" src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-m'); ?>">
                                           </a>
                                           <span class="post-meta-category"><a href="<?php echo get_category_link($post_category); ?>"><?php echo $post_category->name; ?></a></span>
                                       </div>

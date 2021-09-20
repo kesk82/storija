@@ -35,7 +35,7 @@
                                                     $post_cat = isset($post_cat_object->cat_name) ? $post_cat_object->cat_name : "";
                                                     ?>
                                                         <div class="post-thumbnail-entry">
-                                                        <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                                        <img alt="" src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>">
                                                             <div class="post-thumbnail-content">
                                                                 <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                                 <span class="post-date"><i class="icon-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
@@ -70,7 +70,7 @@
                                                     $post_cat = isset($post_cat_object->cat_name) ? $post_cat_object->cat_name : "";
                                                     ?>
                                                         <div class="post-thumbnail-entry">
-                                                        <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                                        <img alt="" src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>">
                                                             <div class="post-thumbnail-content">
                                                                 <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                                 <span class="post-date"><i class="icon-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>
@@ -105,7 +105,7 @@
                                                     $post_cat = isset($post_cat_object->cat_name) ? $post_cat_object->cat_name : "";
                                                     ?>
                                                         <div class="post-thumbnail-entry">
-                                                        <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                                        <img alt="" src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-xs')?>">
                                                             <div class="post-thumbnail-content">
                                                                 <a href="<?php the_permalink(); ?>"><?php the_title();?></a>
                                                                 <span class="post-date"><i class="icon-clock"></i> <time datetime="<?php echo get_the_date('c'); ?>" itemprop="datePublished"><?php echo skke_print_age(get_post_time("U", true)); ?></time></span>

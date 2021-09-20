@@ -8,6 +8,7 @@
  */
 
 get_header();
+$post_format = get_post_format();
 ?>
 		<!-- Page Content -->
 <section id="page-content" class="sidebar-right">
@@ -20,11 +21,20 @@ get_header();
                             <!-- Post single item-->
                             <div class="post-item">
                                 <div class="post-item-wrap">
+                                    <?php if ($post_format === 'video') { ?>
+                                        <div class="post-video">
+                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/<?php echo get_field('yt_video'); ?>" frameborder="0" allowfullscreen></iframe>
+                                        </div>
+                                    <?php } else { ?>
                                     <div class="post-image">
                                         <a href="#">
-                                            <img alt="" src="<?=get_the_post_thumbnail_url()?>">
+                                        <img alt="" data-src="<?=get_the_post_thumbnail_url(get_the_ID(), 'storia-thumb-s')?>"
+                                                data-srcset="<?php echo skke_get_srcset(get_the_ID()); ?>"
+                                                data-sizes="auto"
+                                                class="lazyload">
                                         </a>
-									</div>
+                                    </div>
+                                    <?php } ?>
                                     <?php if (have_posts()) : while (have_posts()) : the_post();
                                         /* Update post viewer counter: */
                                         skke_set_post_view();
