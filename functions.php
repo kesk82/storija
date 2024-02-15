@@ -260,3 +260,5 @@ add_image_size('storia-thumb-l', 1024, 768, true);
 add_image_size('storia-thumb-m', 600, 450, true);
 add_image_size('storia-thumb-s', 300, 225, true);
 add_image_size('storia-thumb-xs', 120, 90, true);
+
+// TEST
